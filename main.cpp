@@ -4,7 +4,7 @@
 #include <opencv2/videoio.hpp>
 #include <opencv2/highgui.hpp>
 #include <opencv2/video.hpp>
-
+#include <opencv2/opencv.hpp>
 
 
 
@@ -28,6 +28,7 @@ int main(int argc, char* argv[])
 	cv::Rect rect(400,100,200,200);	
 int index=-1;
 int max = 0;
+auto kse = cv::Size( 9, 9 );
 	double lr = -1;
 	while(true) {
 
@@ -37,12 +38,14 @@ int max = 0;
 		frame(rect).copyTo(roi); //Copio en roi el recuadro que usaremos
 		cv::Point centro(10, 10);
 		
+
 		cv::cvtColor(roi, gray, cv::COLOR_RGB2GRAY); //Aplicamos a roi escala de grises
 
 		rectangle(frame, rect,cv::Scalar(255,0,0)); //Dibujo en FRAME el rectanglo
 		
 		cv::threshold(gray, gray, 127, 255, cv::THRESH_BINARY); //Se puede quitar, se consigue mayor contraste
-
+		// cv::GaussianBlur( gray, gray, kse , 1.0); //Para reducir ruido
+		
 		pBackSub->apply(gray,fgMask,lr); //aplico a gray la substracción de fondo
 		
 		cv::threshold(fgMask, image, 127, 255, cv::THRESH_BINARY); //Mandamos gfMask para que convierta a binario
