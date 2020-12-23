@@ -8,6 +8,7 @@
 
 #include<string>
 
+#include<fstream>
 
 double angle(cv::Point s, cv::Point e, cv::Point f) {
 
@@ -31,6 +32,8 @@ double angle(cv::Point s, cv::Point e, cv::Point f) {
 
 int main(int argc, char* argv[])
 {
+	std::ofstream outp("oy.txt");
+
 	cv::Mat frame, roi, fgMask,gray, image;
 	cv::VideoCapture cap;
 	cap.open(0);
@@ -57,8 +60,6 @@ int main(int argc, char* argv[])
 		flip(frame,frame,1); //Rota Horizontalmente para efecto espejo
 
 		frame(rect).copyTo(roi); //Copio en roi el recuadro que usaremos
-		cv::Point centro(10, 10);
-		
 
 		cv::cvtColor(roi, gray, cv::COLOR_RGB2GRAY); //Aplicamos a roi escala de grises
 
@@ -94,7 +95,11 @@ int main(int argc, char* argv[])
 			cv::Rect boundRect = boundingRect(contours[i]);
 			cv::rectangle(roi,boundRect,cv::Scalar(0,0,255),1);
 			int punto_medio = boundRect.width / boundRect.height;
+			int dif = boundRect.width - boundRect.height;
 			
+			// outp << "W: " << boundRect.width << '\n';
+			// outp << "H: " << boundRect.height << '\n';
+
 			int cont = 0;
 
 
@@ -107,28 +112,26 @@ int main(int argc, char* argv[])
 					
 				
 					double ang = angle(p_start,p_end,p_far);
-					// cv::putText(roi, std::to_string(ang), cv::Point(j*50, j*50), cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(255, 0, 0), 2, 8, false );
-					if(ang < 90.0 && depth > 45) { 
+					//cv::putText(roi, std::to_string(ang), cv::Point(j*50, j*50), cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(255, 0, 0), 2, 8, false );
+					if(ang < 100.0 && depth > 40) { 
 						cv::circle(roi, p_far ,5,cv::Scalar(0,0,255),-1);
 						cv::line(roi,p_start,p_end,cv::Scalar(255,0,0),1);
 						cont++;
 					}
 				}
 
-			// Contar dedos
-			if (punto_medio < 1.2 && punto_medio > 0.5)
-			{
-				cont = 0;
-				cv::putText(roi, std::to_string(cont), cv::Point(100, 20), cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(255, 0, 0), 2, 8, false );
-				//si cerramos la mano nos borra el dibujo
-				color.clear();
-			}
-			else
-			{
-				putText(roi, std::to_string(cont + 1),cv::Point(100, 20), cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(255, 0, 0), 2, 8, false );
-			}
-
-
+				// Contar dedos
+				if (punto_medio < 1.5 && punto_medio > 0.5 && cont < 4)
+				{
+					// cont = 0;
+					cv::putText(roi, std::to_string(cont), cv::Point(100, 20), cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(255, 0, 0), 2, 8, false );
+					//si cerramos la mano nos borra el dibujo
+					color.clear();
+				}
+				else
+				{
+					putText(roi, std::to_string(cont + 1),cv::Point(100, 20), cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(255, 0, 0), 2, 8, false );
+				}
 			}
 		
 		// cv::drawContours(roi, malla, -1, cv::Scalar(255,0,0),2); //sólo se usa para el tutorial
@@ -144,8 +147,10 @@ int main(int argc, char* argv[])
 		// cv::imshow("image", image);
 		int c = cv::waitKey(40);
 
-		if ((char)c =='q') break;
-		
+		if ((char)c =='q') {
+			break;
+			outp.close();
+		}
 		if ((char)c =='l') lr = 0;  //Se usa para dejar de "aprender" el fondo cambiando el valor del LearningRate
 
 	}
