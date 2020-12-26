@@ -128,8 +128,8 @@ std::vector<cv::Point> pintar_;
 
 				// Contar dedos || area < 28000 && cont < 1 
 
-				// cv::putText(roi, "alt:" + std::to_string(boundRect.height), cv::Point(100, 100), cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(255, 0, 0), 2, 8, false );
-				// cv::putText(roi, "anch:" + std::to_string(boundRect.width), cv::Point(100, 140), cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(255, 0, 0), 2, 8, false );
+				cv::putText(roi, "alt:" + std::to_string(boundRect.height), cv::Point(100, 100), cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(255, 0, 0), 2, 8, false );
+				cv::putText(roi, "anch:" + std::to_string(boundRect.width), cv::Point(100, 140), cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(255, 0, 0), 2, 8, false );
 				
 				if ( boundRect.width > 80 && boundRect.height < 150 ) {
 					
