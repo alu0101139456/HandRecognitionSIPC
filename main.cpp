@@ -8,7 +8,7 @@
 
 #include<string>
 
-#include<fstream>
+// #include<fstream>
 
 double angle(cv::Point s, cv::Point e, cv::Point f) {
 
@@ -32,8 +32,8 @@ double angle(cv::Point s, cv::Point e, cv::Point f) {
 
 int main(int argc, char* argv[])
 {
-	std::ofstream outp("oy.txt");
-
+	// std::ofstream outp("oy.txt");
+std::vector<cv::Point> pintar_;
 	cv::Mat frame, roi, fgMask,gray, image;
 	cv::VideoCapture cap;
 	cap.open(0);
@@ -64,6 +64,7 @@ int main(int argc, char* argv[])
 		cv::cvtColor(roi, gray, cv::COLOR_RGB2GRAY); //Aplicamos a roi escala de grises
 
 		rectangle(frame, rect,cv::Scalar(255,0,0)); //Dibujo en FRAME el rectanglo
+		circle(roi, cv::Point(100,100),80, cv::Scalar(0,0,255));
 		
 		cv::threshold(gray, gray, 127, 255, cv::THRESH_BINARY); //Se puede quitar, se consigue mayor contraste
 		// cv::GaussianBlur( gray, gray, kse , 1.0); //Para reducir ruido
@@ -94,14 +95,16 @@ int main(int argc, char* argv[])
 
 			cv::Rect boundRect = boundingRect(contours[i]);
 			cv::rectangle(roi,boundRect,cv::Scalar(0,0,255),1);
-			int punto_medio = boundRect.width / boundRect.height;
-			int dif = boundRect.width - boundRect.height;
-			
+			float punto_medio = boundRect.size().width / boundRect.size().height;
+			int dif = boundRect.width - (2 * boundRect.height);
+			// int difAltura = boundRect.height * 2
+			float area = boundRect.height * boundRect.width;
 			// outp << "W: " << boundRect.width << '\n';
 			// outp << "H: " << boundRect.height << '\n';
 
 			int cont = 0;
-
+			std::vector<double> angulos;
+			std::vector<cv::Point> puntos;
 
 			for (int j = 0; j < defects.size(); j++) {
 				depth = (float)defects[j][3] / 256.0; 
@@ -113,25 +116,54 @@ int main(int argc, char* argv[])
 				
 					double ang = angle(p_start,p_end,p_far);
 					//cv::putText(roi, std::to_string(ang), cv::Point(j*50, j*50), cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(255, 0, 0), 2, 8, false );
-					if(ang < 100.0 && depth > 40) { 
+					if(ang < 100.0 && depth > 38 ) { 
+						
+						angulos.push_back(ang);
+						puntos.push_back(p_far);
 						cv::circle(roi, p_far ,5,cv::Scalar(0,0,255),-1);
 						cv::line(roi,p_start,p_end,cv::Scalar(255,0,0),1);
 						cont++;
 					}
 				}
 
-				// Contar dedos
-				if (punto_medio < 1.5 && punto_medio > 0.5 && cont < 4)
-				{
-					// cont = 0;
+				// Contar dedos || area < 28000 && cont < 1 
+
+				// cv::putText(roi, "alt:" + std::to_string(boundRect.height), cv::Point(100, 100), cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(255, 0, 0), 2, 8, false );
+				// cv::putText(roi, "anch:" + std::to_string(boundRect.width), cv::Point(100, 140), cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(255, 0, 0), 2, 8, false );
+				
+				if ( boundRect.width > 80 && boundRect.height < 150 ) {
+					
 					cv::putText(roi, std::to_string(cont), cv::Point(100, 20), cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(255, 0, 0), 2, 8, false );
-					//si cerramos la mano nos borra el dibujo
-					color.clear();
+					pintar_.clear();
+		
 				}
 				else
 				{
+					
 					putText(roi, std::to_string(cont + 1),cv::Point(100, 20), cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(255, 0, 0), 2, 8, false );
 				}
+
+				switch (cont)
+				{
+				case 1:
+						if(angulos[0] < 70) {
+							putText(roi, "Paz",cv::Point(100, 180), cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(255, 0, 0), 2, 8, false );
+							
+						} else if(angulos[0] > 80){
+							putText(roi, "Rock",cv::Point(100, 180), cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(255, 0, 0), 2, 8, false );
+							pintar_.push_back(puntos[0]);
+						}
+					break;
+				
+				default:
+					break;
+				}
+
+				for ( int i = 0; i < pintar_.size(); i++) {
+						circle(roi, pintar_[i], 2, cv::Scalar(255, 0, 255), -1);
+				}
+
+				
 			}
 		
 		// cv::drawContours(roi, malla, -1, cv::Scalar(255,0,0),2); //sólo se usa para el tutorial
@@ -149,7 +181,7 @@ int main(int argc, char* argv[])
 
 		if ((char)c =='q') {
 			break;
-			outp.close();
+			// outp.close();
 		}
 		if ((char)c =='l') lr = 0;  //Se usa para dejar de "aprender" el fondo cambiando el valor del LearningRate
 
