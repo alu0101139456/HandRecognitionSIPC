@@ -4,6 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
+  "/home/angel/Workspace/SIPC/SIPC_P3/captureHand.cpp" "/home/angel/Workspace/SIPC/SIPC_P3/build/CMakeFiles/sipc3.dir/captureHand.cpp.o"
   "/home/angel/Workspace/SIPC/SIPC_P3/main.cpp" "/home/angel/Workspace/SIPC/SIPC_P3/build/CMakeFiles/sipc3.dir/main.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")

@@ -5,7 +5,7 @@ include(CTest)
 enable_testing()
 find_package( OpenCV REQUIRED )
 include_directories( ${OpenCV_INCLUDE_DIRS} )
-add_executable(sipc3 main.cpp)
+add_executable(sipc3 main.cpp captureHand.cpp)
 target_link_libraries( sipc3 ${OpenCV_LIBS} )
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})

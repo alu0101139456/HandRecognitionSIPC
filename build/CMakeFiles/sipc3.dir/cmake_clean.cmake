@@ -1,4 +1,5 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/sipc3.dir/captureHand.cpp.o"
   "CMakeFiles/sipc3.dir/main.cpp.o"
   "sipc3"
   "sipc3.pdb"

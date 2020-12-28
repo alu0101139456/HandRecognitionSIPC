@@ -453,12 +453,12 @@ CMakeFiles/ContinuousCoverage.dir/clean:
 CMakeFiles/sipc3.dir/all:
 	$(MAKE) -f CMakeFiles/sipc3.dir/build.make CMakeFiles/sipc3.dir/depend
 	$(MAKE) -f CMakeFiles/sipc3.dir/build.make CMakeFiles/sipc3.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/angel/Workspace/SIPC/SIPC_P3/build/CMakeFiles --progress-num=1,2 "Built target sipc3"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/angel/Workspace/SIPC/SIPC_P3/build/CMakeFiles --progress-num=1,2,3 "Built target sipc3"
 .PHONY : CMakeFiles/sipc3.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/sipc3.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/angel/Workspace/SIPC/SIPC_P3/build/CMakeFiles 2
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/angel/Workspace/SIPC/SIPC_P3/build/CMakeFiles 3
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/sipc3.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/angel/Workspace/SIPC/SIPC_P3/build/CMakeFiles 0
 .PHONY : CMakeFiles/sipc3.dir/rule

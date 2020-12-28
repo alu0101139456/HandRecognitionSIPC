@@ -520,6 +520,33 @@ ContinuousSubmit/fast:
 	$(MAKE) -f CMakeFiles/ContinuousSubmit.dir/build.make CMakeFiles/ContinuousSubmit.dir/build
 .PHONY : ContinuousSubmit/fast
 
+captureHand.o: captureHand.cpp.o
+
+.PHONY : captureHand.o
+
+# target to build an object file
+captureHand.cpp.o:
+	$(MAKE) -f CMakeFiles/sipc3.dir/build.make CMakeFiles/sipc3.dir/captureHand.cpp.o
+.PHONY : captureHand.cpp.o
+
+captureHand.i: captureHand.cpp.i
+
+.PHONY : captureHand.i
+
+# target to preprocess a source file
+captureHand.cpp.i:
+	$(MAKE) -f CMakeFiles/sipc3.dir/build.make CMakeFiles/sipc3.dir/captureHand.cpp.i
+.PHONY : captureHand.cpp.i
+
+captureHand.s: captureHand.cpp.s
+
+.PHONY : captureHand.s
+
+# target to generate assembly for a file
+captureHand.cpp.s:
+	$(MAKE) -f CMakeFiles/sipc3.dir/build.make CMakeFiles/sipc3.dir/captureHand.cpp.s
+.PHONY : captureHand.cpp.s
+
 main.o: main.cpp.o
 
 .PHONY : main.o
@@ -587,6 +614,9 @@ help:
 	@echo "... ContinuousMemCheck"
 	@echo "... ContinuousTest"
 	@echo "... ContinuousSubmit"
+	@echo "... captureHand.o"
+	@echo "... captureHand.i"
+	@echo "... captureHand.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
