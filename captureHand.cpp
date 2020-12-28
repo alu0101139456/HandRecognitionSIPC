@@ -80,7 +80,7 @@ void CaptureHand::AngleAndDepthFilter(int& i) {
     
     ang_ = Angle(p_start,p_end,p_far);
     
-    if(ang_ < 100.0 && depth_ > 38 ) { 
+    if(ang_ < 100.0 && depth_ > 45 ) { 
       angulos_.push_back(ang_);
       puntos_.push_back(p_far);
       if(view) {
@@ -107,17 +107,17 @@ void CaptureHand::IdentifySymbol() {
 
   switch (count_) {
     case 1:
-      if(angulos_[0] < 70) {
+      if(angulos_[0] < 60 ) {
         putText(principal_, "Paz",cv::Point(100, 180), cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(255, 0, 0), 2, 8, false );
         
-      } else if(angulos_[0] > 80){
+      } else if(angulos_[0] > 86){
         putText(principal_, "Rock",cv::Point(100, 180), cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(255, 0, 0), 2, 8, false );
         pintar_.push_back(puntos_[0]);
       }
     break;
 
     default:
-      putText(principal_, "No sign",cv::Point(100, 180), cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(255, 0, 0), 2, 8, false );
+      // putText(principal_, "No sign",cv::Point(100, 180), cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(255, 0, 0), 2, 8, false );
     break;
   }
 
